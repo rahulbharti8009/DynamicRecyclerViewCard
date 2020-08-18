@@ -2,6 +2,7 @@ package com.dynamicrecyclerview.activity
 
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dynamicrecyclerview.R
@@ -15,19 +16,19 @@ import kotlin.random.Random
 class MainActivity : BaseActivity() {
 
     lateinit var binding: ActivityMainBinding
-    var updateValue = 0
-    var lastValue = 0
-    val data: MutableList<ResponseEntity> = mutableListOf()
-    var N: MutableList<Int> = mutableListOf()
+    private var updateValue = 0
+    private val data: MutableList<ResponseEntity> = mutableListOf()
+    private var existElementList: MutableList<Int> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        // perform operation
-        // set data using binding
+        binding.toolbar.apply {
+            title = "Dynamic RecyclerViewCard"
+            setSubtitleTextColor(ContextCompat.getColor(this@MainActivity, R.color.color_white))
+        }
         setData()
         binding.swipeRefreshLayout.setOnRefreshListener {updateAdapter() }
 
-//        val startSnapHelper = StartSnapHelper()
         binding.rvComponent.apply {
             layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
@@ -42,23 +43,22 @@ class MainActivity : BaseActivity() {
                     cardHintPercent
                 )
             )
-//            startSnapHelper.attachToRecy  clerView(this)
         }
     }
 
     // refresh data
     private fun updateAdapter() {
         binding.swipeRefreshLayout.isRefreshing = false
-        N.clear()
-        N.add(0)
+        existElementList.clear()
+        existElementList.add(0)
         for (i in 0 until 3) {
             data[i] = ResponseEntity(recursion(i))
         }
         binding.rvComponent.adapter!!.notifyDataSetChanged()
     }
 
-    fun setData() {
-        N.add(0)
+    private fun setData() {
+        existElementList.add(0)
         for (i in 0 until 3) {
             data.add(ResponseEntity(recursion(i)))
         }
@@ -67,12 +67,11 @@ class MainActivity : BaseActivity() {
     //  invoked first time
     private fun recursion(i: Int): Int {
         updateValue = Random.nextInt(0, 4)
-        if (N.contains(updateValue)) {
+        if (existElementList.contains(updateValue)) {
             recursion(i)
         } else {
-            N.add(updateValue)
+            existElementList.add(updateValue)
         }
-//        lastValue = updateValue
         Log.e("TAG", "update value $updateValue")
         return updateValue
     }

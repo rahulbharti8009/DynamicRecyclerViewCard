@@ -6,17 +6,10 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class AddSpaceInCell(
-    var vertical: Boolean = true,
-    context: Context,
-    itemWidth: Float,
-    itemPeekingPercent: Float = .035f,
-    var extraLeftWidth: Int = 5
-) :
+open class AddSpaceInCell(var vertical: Boolean = true, context: Context, itemWidth: Float, itemPeekingPercent: Float = .035f, var extraLeftWidth: Int = 5) :
     RecyclerView.ItemDecoration() {
     private var mInterItemsGap: Int = 0
     private var mNetOneSidedGap: Int = 0
-//     var  context : Context? = context
 
     init {
         val cardPeekingWidth = (itemWidth * itemPeekingPercent + .5f).toInt()
