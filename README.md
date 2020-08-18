@@ -1,0 +1,2 @@
+# DynamicRecyclerViewCard
+Dynamic RecyclerView cards
