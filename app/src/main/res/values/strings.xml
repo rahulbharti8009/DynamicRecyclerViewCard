@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DynamicRecyclerView</string>
+    <string name="str_card_view_one">Card one</string>
+    <string name="str_card_view_two">Card two</string>
+    <string name="str_card_view_three">Card three</string>
+    <string name="str_cell">cell %d</string>
+</resources>
